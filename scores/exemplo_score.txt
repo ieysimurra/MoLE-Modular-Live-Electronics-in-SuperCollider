@@ -1,0 +1,91 @@
+# =====================================================================
+# Exemplo de cue list — Live Electronics
+# =====================================================================
+# Estrutura de peça mista instrumental em cenas. Cada cena é um
+# estado configurado do sistema. O intérprete acústico conduz o
+# andamento; o operador (ou o próprio intérprete via pedal MIDI)
+# dispara as cenas na ordem musical.
+#
+# Ordem sugerida: 1 → 2 → 3 → 4 → 5, mas você pode saltar livremente
+# (voltar ao 2, pular para o 5, etc).
+# =====================================================================
+
+title:       Estudo de superfícies
+composer:    Ivan Simurra
+description: Estudo para instrumento acústico e live electronics
+
+# ---------------------------------------------------------------------
+[Cena 1: Estado inicial — silêncio]
+# Preparação antes de o intérprete começar. Tudo desligado.
+# ---------------------------------------------------------------------
+mode off
+master.amp 0.7
+say Cena 1 — preparação (silêncio)
+
+# ---------------------------------------------------------------------
+[Cena 2: Exposição — solo com reverb sutil]
+# O intérprete começa a peça. Reverb ligado com decay médio.
+# ---------------------------------------------------------------------
+mode live
+preset 0
+fx.bypass reverb on
+fx.mix reverb 0.5
+fx.param reverb decay 3
+say Cena 2 — solo do instrumento
+
+# ---------------------------------------------------------------------
+[Cena 3: Grava gesto A]
+# Ativa gravação do slot 0. O intérprete toca o gesto que será
+# processado nas próximas cenas. Dispare a Cena 4 quando ele acabar.
+# ---------------------------------------------------------------------
+sample.rec 0
+say Cena 3 — gravando gesto A no slot 0
+
+# ---------------------------------------------------------------------
+[Cena 4: Gesto A retorna transformado]
+# Para a gravação, dispara playback com reverb + reverse encadeados.
+# ---------------------------------------------------------------------
+sample.stop 0
+fx.bypass reverse on
+fx.source reverb reverse
+fx.mix reverb 1.0 fade 2
+fx.mix reverse 0.8 fade 2
+sample.play 0
+say Cena 4 — gesto A retorna invertido e reverberado
+
+# ---------------------------------------------------------------------
+[Cena 5: Densidade — harmonizer + loop]
+# Adiciona harmonizer e prepara loop de sustentação.
+# ---------------------------------------------------------------------
+preset 1
+fx.bypass harmonizer on
+fx.param harmonizer voices 6 fade 3
+fx.param harmonizer spread 5 fade 3
+say Cena 5 — clímax de textura
+
+# ---------------------------------------------------------------------
+[Cena 6: Diminuição gradual]
+# Fade global de tudo em 12 segundos. Ideal para transição de seção.
+# ---------------------------------------------------------------------
+master.amp 0.3 fade 12
+fx.mix harmonizer 0.2 fade 10
+fx.mix reverb 0.5 fade 8
+say Cena 6 — decrescendo
+
+# ---------------------------------------------------------------------
+[Cena 7: Coda — resíduo apenas do reverb]
+# Desliga tudo exceto o reverb residual. Fim da peça está próximo.
+# ---------------------------------------------------------------------
+fx.bypass reverse off
+fx.bypass harmonizer off
+fx.source reverb dry
+fx.mix reverb 0.4
+say Cena 7 — resíduo do reverb
+
+# ---------------------------------------------------------------------
+[Cena 8: Fim]
+# Corta o modo live e silencia o sistema.
+# ---------------------------------------------------------------------
+master.amp 0 fade 5
+mode off
+say — fim —

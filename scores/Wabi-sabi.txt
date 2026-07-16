@@ -1,0 +1,248 @@
+# =====================================================================
+# Wabi-sabi — Live Electronics
+# Flauta, Viola, Violoncelo, Contrabaixo e live electronics
+#
+# Ivan Simurra (NICS/UNICAMP)
+# =====================================================================
+# ATENÇÃO ANTES DA PERFORMANCE:
+# 1. Carregue o bank "wabi-sabi" (contém presets 0-8) — a Cena 1 já faz
+# 2. Verifique conexão do mic no canal 1 da interface
+# 3. Verifique que o buffer da Focusrite está em 128 samples (baixa latência)
+# =====================================================================
+
+title:       Wabi-sabi
+composer:    Ivan Simurra
+description: Flauta, Viola, Violoncelo, Contrabaixo e live electronics
+
+# ---------------------------------------------------------------------
+[Cena 1: Setup e silêncio inicial]
+# Carrega bank com todos os presets da peça. Sistema silencioso.
+# ---------------------------------------------------------------------
+bank wabi-sabi
+mode off
+master.amp 0.7
+say Cena 1 — Wabi-sabi pronto para começar
+
+# ---------------------------------------------------------------------
+[Cena 2: Grava gesto A no slot 0]
+# Intérprete toca o gesto que será processado nas cenas seguintes.
+# Dispare Cena 3 quando o gesto acabar.
+# ---------------------------------------------------------------------
+mode live
+sample.rec 0
+say Cena 2 — gravando gesto A (slot 0)
+
+# ---------------------------------------------------------------------
+[Cena 3: Gesto A retorna transformado]
+# Para gravação, dispara playback processado pelo preset 1.
+# ---------------------------------------------------------------------
+sample.stop 0
+preset 1
+sample.play 0
+say Cena 3 — gesto A retorna invertido e reverberado
+
+# ---------------------------------------------------------------------
+[Cena 4: Silêncio (para o sample tocando)]
+# sample.stop AGORA para playback também (correção do sistema).
+# ---------------------------------------------------------------------
+sample.stop 0
+mode off
+say Cena 4 — silêncio
+
+# ---------------------------------------------------------------------
+[Cena 5: Tempo-real com stretch-reverb-delay-harmonizer]
+# ---------------------------------------------------------------------
+mode live
+preset 2
+say Cena 5 — atraso do real harmonizado
+
+# ---------------------------------------------------------------------
+[Cena 6: Reversão do real transformado]
+# ---------------------------------------------------------------------
+mode live
+preset 4
+say Cena 6 — reversão do real transformado
+
+# ---------------------------------------------------------------------
+[Cena 7: Grava gesto B no slot 1]
+# ATENÇÃO: mode live mantém o intérprete audível durante a gravação.
+# Se preferir gravação "surda" (intérprete não se ouve), use mode off.
+# ---------------------------------------------------------------------
+mode live
+sample.rec 1
+say Cena 7 — gravando gesto B (slot 1)
+
+# ---------------------------------------------------------------------
+[Cena 8: Gesto B retorna transformado]
+# ---------------------------------------------------------------------
+sample.stop 1
+preset 6
+sample.play 1
+say Cena 8 — gesto B retorna invertido e reverberado
+
+# ---------------------------------------------------------------------
+[Cena 9: Silêncio (para sample 1 tocando)]
+# ---------------------------------------------------------------------
+sample.stop 1
+mode off
+say Cena 9 — silêncio
+
+# ---------------------------------------------------------------------
+[Cena 10: Clímax de efeitos]
+# stretch + reverse + modulation + reverb + delay + harmonizer
+# ---------------------------------------------------------------------
+mode live
+preset 8
+say Cena 10 — clímax dos efeitos
+
+# ---------------------------------------------------------------------
+[Cena 11: Os dois samples voltam transformados]
+# Ambos samples tocam simultaneamente, processados pelo preset 3.
+# ---------------------------------------------------------------------
+mode buffer
+preset 3
+sample.play 0
+sample.play 1
+say Cena 11 — instrumentos com dois samples
+
+# ---------------------------------------------------------------------
+[Cena 12: Silencia samples e grava gesto C no slot 2]
+# ---------------------------------------------------------------------
+mode live
+sample.stop 0
+sample.stop 1
+sample.rec 2
+say Cena 12 — silenciando 0 e 1, gravando gesto C (slot 2)
+
+# ---------------------------------------------------------------------
+[Cena 13: Gesto C retorna transformado]
+# ---------------------------------------------------------------------
+sample.stop 2
+preset 5
+sample.play 2
+say Cena 13 — gesto C retorna transformado
+
+# ---------------------------------------------------------------------
+[Cena 14: Live transformado]
+# ---------------------------------------------------------------------
+mode live
+sample.stop 2
+preset 7
+say Cena 14 — live transformado
+
+# ---------------------------------------------------------------------
+[Cena 15: Solo com reverb e delay]
+# Preset 0 = base neutra + ajustes explícitos.
+# ---------------------------------------------------------------------
+mode live
+preset 0
+fx.bypass reverb on
+fx.mix reverb 0.5
+fx.param reverb decay 3
+fx.bypass delay on
+fx.mix delay 0.83
+fx.param delay time 1.75
+fx.param delay feedback 0.75
+say Cena 15 — solo com reverb e delay
+
+# ---------------------------------------------------------------------
+[Cena 16: Silêncio]
+# ---------------------------------------------------------------------
+mode off
+say Cena 16 — silêncio
+
+# ---------------------------------------------------------------------
+[Cena 17: Grava gesto D no slot 3]
+# ---------------------------------------------------------------------
+mode live
+sample.rec 3
+say Cena 17 — gravando gesto D (slot 3)
+
+# ---------------------------------------------------------------------
+[Cena 18: Para gravação, entra tempo-real com preset 2]
+# ---------------------------------------------------------------------
+mode live
+sample.stop 3
+preset 2
+say Cena 18 — atraso do real harmonizado
+
+# ---------------------------------------------------------------------
+[Cena 19: Gesto D retorna transformado]
+# ---------------------------------------------------------------------
+preset 8
+sample.play 3
+say Cena 19 — gesto D retorna transformado
+
+# ---------------------------------------------------------------------
+[Cena 20: Solo com reverb e delay]
+# Idêntica à Cena 15 — considere criar um preset dedicado
+# (ex: preset 9) para reutilizar sem repetir os 8 comandos.
+# ---------------------------------------------------------------------
+mode live
+sample.stop 3
+preset 0
+fx.bypass reverb on
+fx.mix reverb 0.5
+fx.param reverb decay 3
+fx.bypass delay on
+fx.mix delay 0.83
+fx.param delay time 1.75
+fx.param delay feedback 0.75
+say Cena 20 — solo com reverb e delay
+
+# ---------------------------------------------------------------------
+[Cena 21: Tocando sample 2 transformado]
+# ---------------------------------------------------------------------
+mode buffer
+preset 6
+sample.play 2
+say Cena 21 — sample 2 transformado
+
+# ---------------------------------------------------------------------
+[Cena 22: Alterna para sample 1]
+# ---------------------------------------------------------------------
+mode buffer
+sample.stop 2
+preset 6
+sample.play 1
+say Cena 22 — sample 1 transformado
+
+# ---------------------------------------------------------------------
+[Cena 23: Sample 0 e 3 simultâneos]
+# ---------------------------------------------------------------------
+mode buffer
+sample.stop 1
+preset 6
+sample.play 0
+sample.play 3
+say Cena 23 — samples 0 e 3 transformados
+
+# ---------------------------------------------------------------------
+[Cena 24: Solo com reverb e modulation]
+# ---------------------------------------------------------------------
+mode live
+sample.stop 0
+sample.stop 3
+preset 0
+fx.bypass reverb on
+fx.mix reverb 0.5
+fx.param reverb decay 3
+fx.bypass modulation on
+fx.mix modulation 0.75
+fx.param modulation modFreq 181
+say Cena 24 — solo com reverb e modulation
+
+# ---------------------------------------------------------------------
+[Cena 25: Fade final]
+# Fade suave de 5 segundos. Dispare Cena 26 quando o fade acabar.
+# ---------------------------------------------------------------------
+master.amp 0 fade 5
+say Cena 25 — fade out final
+
+# ---------------------------------------------------------------------
+[Cena 26: Fim]
+# Corta o sistema após o fade completar.
+# ---------------------------------------------------------------------
+mode off
+master.amp 0.7
+say — fim —
