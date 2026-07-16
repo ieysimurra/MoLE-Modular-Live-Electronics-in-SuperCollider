@@ -1,4 +1,4 @@
-# Live Electronics — SuperCollider
+# MoLE - Modular Live Electronics — SuperCollider
 
 Sistema modular de *live electronics* em SuperCollider para performance em tempo real e composição de música mista instrumental. Combina processamento de microfone, looping multi-buffer, oito categorias de efeitos com roteamento modular, controle via AKAI MIDIMIX, presets persistentes e sistema de **partitura em cue list**.
 
